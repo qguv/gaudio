@@ -24,6 +24,7 @@ func studder(songPath string, studderTime int) {
     defer vox.Quit()
     song, err := vox.Open(songPath)
     errTest(err)
+    song.SetLooping(false)
     defer song.Close()
     song.Play()
     for !song.Finished() {
@@ -43,14 +44,48 @@ func playInFull(songPath string) {
     defer vox.Quit()
     song, err := vox.Open(songPath)
     errTest(err)
+    song.SetLooping(false)
     defer song.Close()
     song.Play()
     for !song.Finished() { } //TODO: Doesn't ever stop...
 }
 
+func playSprite(songPath string, piece int) {
+    songName := filepath.Base(songPath)
+    errTest(vox.Init("", 44100, 2, 0))
+    println("Vox!\nv" + vox.Version + "\n")
+    println("Playing song \"" + songName + "\"...")
+    defer vox.Quit()
+    song, err := vox.Open(songPath)
+    errTest(err)
+    song.SetLooping(false)
+    pieceLength := song.Lines() / 8 // Eight pieces per sprite
+    defer song.Close()
+    song.Seek(piece * pieceLength, 0)
+    song.Play()
+    for song.Line() < ((piece + 1) * pieceLength - 1) {}
+    song.Pause()
+}
+
 func main() {
     //playInFull("examples/simple_examples/fm.sunvox")
-    studder("examples/kostya_m - Midnight.sunvox", 123)
-    playInFull("examples/kostya_m - Midnight.sunvox")
+    //studder("examples/kostya_m - Midnight.sunvox", 123)
+    //playInFull("examples/kostya_m - Midnight.sunvox")
+    //playInFull("sprite1.sunvox")
+    playSprite("sprite1.sunvox", 4)
+    playSprite("sprite1.sunvox", 4)
+    playSprite("sprite1.sunvox", 5)
+    playSprite("sprite1.sunvox", 7) // TODO: Below this line won't play!
+    playSprite("sprite1.sunvox", 7)
+    playSprite("sprite1.sunvox", 5)
+    playSprite("sprite1.sunvox", 4)
+    playSprite("sprite1.sunvox", 2)
+    playSprite("sprite1.sunvox", 0)
+    playSprite("sprite1.sunvox", 0)
+    playSprite("sprite1.sunvox", 2)
+    playSprite("sprite1.sunvox", 4)
+    playSprite("sprite1.sunvox", 4)
+    playSprite("sprite1.sunvox", 2)
+    playSprite("sprite1.sunvox", 2)
 }
 
