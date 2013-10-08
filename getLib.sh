@@ -1,5 +1,5 @@
 #!/bin/bash
-# Gets library for your system
+# Gets sunvox library for your system
 
 usage () {
     echo "$1"
@@ -10,7 +10,14 @@ usage () {
 
 pathFetch () {
     libPath="$1"
+    echo "Connecting to github.com/ajhager/vox"
+    echo "Getting library $libPath"
     curl -#O "https://github.com/ajhager/vox/raw/master/data/$libPath"
+    if [ "$?" == 0 ]; then
+        echo "Success. Sunvox libraries have been installed."
+    else
+        echo "Failure! Sunvox libraries have not been installed."
+    fi
 }
 
 case "$1" in
