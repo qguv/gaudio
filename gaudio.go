@@ -16,6 +16,10 @@ func errTest(err error) bool {
     }
 }
 
+func getSongLength(song vox.Song) uint {
+    return song.Lines() * song.TicksPerLine() * (vox.TicksPerSecond()) ** -1
+}
+
 func studder(songPath string, studderTime int) {
     songName := filepath.Base(songPath)
     errTest(vox.Init("", 44100, 2, 0))
@@ -64,6 +68,7 @@ func playSprite(songPath string, piece int) {
     song.Seek(piece * pieceLength, 0)
     song.Play()
     for song.Line() < ((piece + 1) * pieceLength - 1) {}
+    // time.Sleep(time.Duration(getSongLength) * time.Second)
     song.Pause()
 }
 
