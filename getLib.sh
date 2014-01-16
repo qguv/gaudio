@@ -12,7 +12,7 @@ pathFetch () {
     libPath="$1"
     echo "Connecting to github.com/ajhager/vox"
     echo "Getting library $libPath"
-    curl -#O "https://github.com/ajhager/vox/raw/master/data/$libPath"
+    curl -#O "https://github.com/ajhager/vox/master/data/$libPath"
     if [ "$?" == 0 ]; then
         echo "Success. Sunvox libraries have been installed."
     else
